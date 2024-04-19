@@ -2,6 +2,24 @@
 const Childs = require('../models/childs.js');
 const ObjectId = require('mongodb').ObjectID;
 
+//Obtener los datos del usuario principal de la BD
+const getChilds = (req, res) => {
+    if (req.query && req.query.id) {
+        Childs.findById(req.query.id)
+            .then((childs) => {
+                res.json(childs).status(200);
+            })
+            .catch(err => {
+                res.status(404);
+                console.log('Server error obtain the user', err);
+                res.json({ error: "The user doesnt exist" });
+            });
+    } else {
+        console.log('Internal error with the user data');
+        res.json().status(404);
+    };
+};
+
 // Insertar un nuevo usuario principal en la BD
 const postChilds = async (req, res) => {
     let childs = new Childs();
@@ -30,29 +48,6 @@ const postChilds = async (req, res) => {
         console.log('Data error while saving the kids account');
         res.json({ errorSend: 422 });
     }
-};
-
-const getChildsByFather = (req, res) => {
-    //console.log(req.query.father);
-    if (req.query.father) {
-        Childs.find({father:req.query.father})
-            .then((childs) => {
-                if(childs[0]){
-                    res.json(childs);
-                } else {
-                    res.json({childs:'void'});
-                }
-            })
-            .catch(err => {
-                res.status(404);
-                console.log('Server error obtaining the user', err)
-                res.json({ error: "The user doesnt exist" })
-            });
-    } else {
-        res.status(404);
-        console.log('Internal error with the user data');
-        res.json({ error: 404 })
-    };
 };
 
 // Actualizar los datos de un usuario
@@ -93,4 +88,4 @@ const deleteChilds = async (req, res) => {
     };
 };
 
-module.exports = {postChilds, patchChilds, deleteChilds, getChildsByFather};
+module.exports = {postChilds, patchChilds, deleteChilds, getChilds};

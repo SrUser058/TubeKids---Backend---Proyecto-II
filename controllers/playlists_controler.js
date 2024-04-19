@@ -28,6 +28,22 @@ const postPlaylist = async (req, res) => {
     }
 };
 
+const getPlaylist = (req, res) => {
+    if (req.query && req.query.id) {
+        Playlist.findById(req.query.id)
+            .then((playlist) => {
+                res.json(playlist).status(200);
+            })
+            .catch(err => {
+                console.log('Server error obtain the playlist', err)
+                res.json().status(422);
+            });
+    } else {
+        console.log('Error with the data in the request')
+        res.json().status(422);
+    };
+};
+
 const patchPlaylist = async (req, res) => {
     //Buscar el usuario en la BD
     if (req.query && req.query.id) {
@@ -73,4 +89,4 @@ const deletePlaylist = async (req, res) => {
     };
 };
 
-module.exports = {postPlaylist, patchPlaylist, deletePlaylist};
+module.exports = {postPlaylist, patchPlaylist, deletePlaylist, getPlaylist};

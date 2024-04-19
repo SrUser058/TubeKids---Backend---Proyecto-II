@@ -14,17 +14,16 @@ app.use(cors({
     methods: "*"
 }))
 
-const {getFather, postFather, patchFather, deleteFather, getAllFather, getEmail} = require('./controllers/fathers_controler');
+const {getFather, postFather, patchFather, deleteFather} = require('./controllers/fathers_controler');
 
-const {getChilds, postChilds, patchChilds, deleteChilds, getChildsByFather} = require('./controllers/childs_controler');
+const {getChilds, postChilds, patchChilds, deleteChilds} = require('./controllers/childs_controler');
 
-const {getPlaylist, postPlaylist, patchPlaylist, deletePlaylist, getPlaylistByFather} = require('./controllers/playlists_controler');
+const {getPlaylist, postPlaylist, patchPlaylist, deletePlaylist} = require('./controllers/playlists_controler');
 
-app.get("/api/login/", getAllFather);
+a/*pp.get("/api/login/", getAllFather);
 app.get("/api/register/", getEmail);
 app.get("/api/childs/father/", getChildsByFather);
-app.get("/api/childs/", getChilds);
-app.get("/api/playlist/father/", getPlaylistByFather);
+app.get("/api/playlist/father/", getPlaylistByFather);*/
 
 
 // Escuchando los puertos
@@ -33,7 +32,7 @@ app.post("/api/father/", postFather);
 app.patch("/api/father/", patchFather);
 app.delete("/api/father/", deleteFather);
 
-
+app.get("/api/childs/", getChilds);
 app.post("/api/childs", postChilds);
 app.patch("/api/childs/", patchChilds);
 app.delete("/api/childs/",deleteChilds);
