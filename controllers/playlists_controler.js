@@ -1,54 +1,5 @@
 const Playlist = require('../models/playlistModel.js');
 
-const getPlaylistByFather = (req,res) => {
-    //console.log(req.query.father);
-    if(req.query && req.query.father){
-        Playlist.find({father:req.query.father})
-        .then(list => {
-            if(list[0]){
-                res.json(list).status(201);
-            } else {
-                res.json({list:'Void'}).status(201);
-            };
-        })
-        .catch(error => {
-            console.log(error);
-            res.json({error:'Error searching the playlist'}).status(404);
-        });
-    }
-};
-
-const getPlaylist = (req, res) => {
-    if (req.query && req.query.id) {
-        /*Playlist.find()
-            .then(playlistes => {
-                for(x = 0; x <= playlistes.length; x++){
-                    if(playlistes[x].name === req.query.name && playlistes[x].father === req.query.ref){
-                        res.json(playlistes[x]);
-                    };
-                };
-            })
-            .catch(err => {
-                res.status(422);
-                console.log('Internal error while get the playlist',err )
-                res.json({ "error": 422});
-            });*/
-        Playlist.findById(req.query.id)
-            .then((playlist) => {
-                res.json(playlist);
-            })
-            .catch(err => {
-                res.status(404);
-                console.log('Server error obtain the playlist', err)
-                res.json({ error: "The playlist doesnt exist" })
-            });
-    } else {
-        res.status(422);
-        console.log('Error with the data in the request')
-        res.json({ "error": 422 });
-    };
-};
-
 const postPlaylist = async (req, res) => {
     let playlist = new Playlist();
 
@@ -122,4 +73,4 @@ const deletePlaylist = async (req, res) => {
     };
 };
 
-module.exports = { getPlaylist, postPlaylist, patchPlaylist, deletePlaylist, getPlaylistByFather};
+module.exports = {postPlaylist, patchPlaylist, deletePlaylist};

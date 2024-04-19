@@ -19,70 +19,23 @@ const postFather = async (req, res) => {
 
     console.log(req.body);
     // Validar que los datos no sean null
-    if (father.name && father.lastname && father.email && father.password && father.age && father.pin && father.pin.toString().length == 6 && father.country && father.birthdate && father.avatar) {
+    if (father.name && father.lastname && father.email && father.password && father.age && father.pin && father.pin.toString().length == 6 && father.country && father.birthdate && father.avatar && father.phone && father.status == 'Pendient') {
         await father.save()
             .then(data => {
                 //res.status(201);
                 res.header({ 'location': `/api/father/?id=${data.id}`});
-                res.json({location:`/api/father/?id=${data.id}`}).status(201);
+                res.json(father).status(201);
             })
             .catch(error => {
                 res.status(422);
                 console.log('Server error while saving the new account', error);
-                res.json({ errorSend: 422 });
+                res.json();
             });
     } else {
         res.status(422);
         console.log('Data error while saving the new account');
-        res.json({ errorSend: 422 });
+        res.json();
     }
-};
-
-const getAllFather = (req, res) => {
-    if (req.query.email && req.query.password) {
-        Father.find({'email': req.query.email,'password' : req.query.password})
-            .then(fathers => {
-                //console.log(fathers[0].email,fathers[0].password);
-                //console.log(req.query.email,req.query.password);
-                if(fathers[0].email == req.query.email && fathers[0].password == req.query.password){
-                    //console.log(1);
-                    res.json({ verification: true, id: fathers[0].id }).status(201);
-                }else{
-                    //console.log(2);
-                    res.json({ verification: false }).status(402);
-                };
-            })
-            .catch(err => {
-                res.status(404);
-                console.log('Internal error while search the data', err);
-                res.json({ error: 'Intentelo de nuevo mas tarde' });
-            })
-            /*.finally((verification)=>{
-                res.json({verification:false});
-            })*/
-    } else {
-        res.status(404);
-        console.log('Imposible encontrar el usuario');
-        res.json({ error: 404 });
-    }
-};
-
-const getEmail = (req, res) => {
-    if(req.query.email){
-        Father.find({'email': req.query.email})
-        .then(fathers => {
-            if(!fathers[0]){
-                res.json({'verification':true}).status(201);
-            } else {
-                res.json({'verification':false}).status(401);
-            }
-        }).catch(err => {
-            res.json({error:'Imposible encontrar el correo en la bd'}).status(401);
-            console.log(err);
-        })
-    } else {
-        res.json({error:'Error en los datos enviados'}).status(401);
-    };
 };
 
 // Obtener los datos del usuario principal de la BD
@@ -90,7 +43,7 @@ const getFather = (req, res) => {
     if (req.query.id) {
         Father.findById(req.query.id)
             .then((father) => {
-                res.json(father);
+                res.json(father).status(200);
             })
             .catch(err => {
                 res.status(404);
@@ -110,7 +63,7 @@ const patchFather = async (req, res) => {
     if (req.query.id) {
         await Father.findByIdAndUpdate(req.query.id, req.body)
             .then(answer => {
-                res.json(answer).status(201);
+                res.json(answer).status(200);
             })
             .catch(err => {
                 console.log('Error update the user');
@@ -128,7 +81,7 @@ const deleteFather = async (req, res) => {
     if (req.query.id) {
         await Father.findByIdAndDelete({ _id: req.query.id })
             .then(answer => {
-                res.json(answer);
+                res.json(answer).status(204);
             })
             .catch(err => {
                 res.status(422);
@@ -142,4 +95,4 @@ const deleteFather = async (req, res) => {
     };
 };
 
-module.exports = { getFather, postFather, patchFather, deleteFather, getAllFather, getEmail};
+module.exports = { getFather, postFather, patchFather, deleteFather};

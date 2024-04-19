@@ -32,25 +32,6 @@ const postChilds = async (req, res) => {
     }
 };
 
-// Obtener los datos del usuario principal de la BD
-const getChilds = (req, res) => {
-    if (req.query && req.query.id) {
-        Childs.findById(req.query.id)
-            .then((childs) => {
-                res.json(childs);
-            })
-            .catch(err => {
-                res.status(404);
-                console.log('Server error obtain the user', err);
-                res.json({ error: "The user doesnt exist" });
-            });
-    } else {
-        res.status(404);
-        console.log('Internal error with the user data');
-        res.json({ error: 404 })
-    };
-};
-
 const getChildsByFather = (req, res) => {
     //console.log(req.query.father);
     if (req.query.father) {
@@ -112,4 +93,4 @@ const deleteChilds = async (req, res) => {
     };
 };
 
-module.exports = { getChilds, postChilds, patchChilds, deleteChilds, getChildsByFather};
+module.exports = {postChilds, patchChilds, deleteChilds, getChildsByFather};
