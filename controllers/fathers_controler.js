@@ -19,7 +19,7 @@ const postFather = async (req, res) => {
 
     console.log(req.body);
     // Validar que los datos no sean null
-    if (father.name && father.lastname && father.email && father.password && father.age && father.pin && father.pin.toString().length == 6 && father.country && father.birthdate && father.avatar && father.phone && father.status == 'Pendient') {
+    if (father.name && father.lastname && father.email && father.password && father.age <= 18 && father.pin && father.pin.toString().length == 6 && father.country && father.birthdate && father.avatar && father.phone && father.status == 'Pendient') {
         await father.save()
             .then(data => {
                 //res.status(201);
@@ -32,9 +32,8 @@ const postFather = async (req, res) => {
                 res.json();
             });
     } else {
-        res.status(422);
         console.log('Data error while saving the new account');
-        res.json();
+        res.json().status(422);
     }
 };
 
@@ -46,14 +45,12 @@ const getFather = (req, res) => {
                 res.json(father).status(200);
             })
             .catch(err => {
-                res.status(404);
                 console.log('Server error obtain the user', err)
-                res.json({ error: "The user doesnt exist" })
+                res.json().status(404);
             });
     } else {
-        res.status(404);
         console.log('Internal error with the user data');
-        res.json({ error: 404 })
+        res.json().status(404);
     };
 }
 
@@ -70,28 +67,25 @@ const patchFather = async (req, res) => {
                 res.json(undefined).status(422);
             });
     } else {
-        res.status(404);
         console.log('Internal error with the data');
-        res.json({ error: 404 });
+        res.json().status(404);
     };
 };
 
 // Eliminar los datos de un usuario
 const deleteFather = async (req, res) => {
     if (req.query.id) {
-        await Father.findByIdAndDelete({ _id: req.query.id })
+        await Father.findByIdAndDelete(req.query.id)
             .then(answer => {
                 res.json(answer).status(204);
             })
             .catch(err => {
-                res.status(422);
                 console.log('Error on delete the account', err);
-                res.json({ error: 422 });
+                res.json().status(422);
             });
     } else {
-        res.status(422);
         console.log('No data to delete the account', err);
-        res.json({ error: 422 });
+        res.json().status(422);
     };
 };
 

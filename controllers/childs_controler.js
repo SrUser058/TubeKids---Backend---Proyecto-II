@@ -1,6 +1,5 @@
 
 const Childs = require('../models/childs.js');
-const ObjectId = require('mongodb').ObjectID;
 
 //Obtener los datos del usuario principal de la BD
 const getChilds = (req, res) => {
@@ -10,13 +9,12 @@ const getChilds = (req, res) => {
                 res.json(childs).status(200);
             })
             .catch(err => {
-                res.status(404);
                 console.log('Server error obtain the user', err);
-                res.json({ error: "The user doesnt exist" });
+                res.json().status(422);
             });
     } else {
         console.log('Internal error with the user data');
-        res.json().status(404);
+        res.json().status(422);
     };
 };
 
@@ -39,14 +37,12 @@ const postChilds = async (req, res) => {
                 res.json({ 'location': `/api/kids/?id=${data.id}` }).status(201);
             })
             .catch(error => {
-                res.status(422);
                 console.log('Server error while saving the kids account', error);
-                res.json({ errorSend: 422 });
+                res.json().status(422);
             });
     } else {
-        res.status(422);
         console.log('Data error while saving the kids account');
-        res.json({ errorSend: 422 });
+        res.json().status(422);
     }
 };
 
@@ -56,35 +52,32 @@ const patchChilds = async (req, res) => {
     if (req.query && req.query.id) {
         await Childs.findByIdAndUpdate(req.query.id, req.body)
             .then(answer => {
-                res.json({confirm:true}).status(201);
+                res.json(answer).status(200);
             })
             .catch(err => {
                 console.log('Error update the user', err);
                 res.json(undefined).status(422);
             });
     } else {
-        res.status(404);
         console.log('Internal error with the data');
-        res.json({ error: 404 });
+        res.json().status(404);
     };
 };
 
 // Eliminar los datos de un usuario
 const deleteChilds = async (req, res) => {
     if (req.query && req.query.id) {
-        await Childs.findByIdAndDelete({ _id: req.query.id })
+        await Childs.findByIdAndDelete(req.query.id)
             .then(answer => {
-                res.json({confirm:true}).status(201);
+                res.json(answer).status(204);
             })
             .catch(err => {
-                res.status(422);
                 console.log('Error on delete the user', err);
-                res.json(undefined);
+                res.json().status(422);
             });
     } else {
-        res.status(422);
         console.log('No data to delete the user', err);
-        res.json({ error: 422 });
+        res.json().status(422);
     };
 };
 

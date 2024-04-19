@@ -14,17 +14,15 @@ const postPlaylist = async (req, res) => {
         await playlist.save()
             .then(data => {
                 res.header({ 'location': `/api/playlist/?id=${data.id}` });
-                res.json({'location': `/api/playlist/?id=${data.id}`}).status(201);
+                res.json(playlist).status(201);
             })
             .catch(error => {
-                res.status(422);
                 console.log('Server error while saving the playlist', error);
-                res.json({ errorSend: 422 });
+                res.json().status(422);
             });
     } else {
-        res.status(422);
         console.log('Data error while saving the playlist');
-        res.json({ errorSend: 422 });
+        res.json().status(422);
     }
 };
 
@@ -45,47 +43,35 @@ const getPlaylist = (req, res) => {
 };
 
 const patchPlaylist = async (req, res) => {
-    //Buscar el usuario en la BD
     if (req.query && req.query.id) {
         await Playlist.findByIdAndUpdate(req.query.id, req.body)
             .then(answer => {
-                res.json(answer);
+                res.json(answer).status(200);
             })
             .catch(err => {
-                res.status(422);
                 console.log('Error update the playlist', err);
-                res.json({result: 422});
+                res.json().status(422);
             });
-        /*playlist.save((err) => {
-            if(err){
-                res.status(422);
-                console.log('Server error while saving the playlist updates',err);
-                res.json({error:422});
-            }
-            res.status(200);
-            res.json(father);
-        })*/
     } else {
-        res.status(404);
+        res;
         console.log('Internal error with the data');
-        res.json({ error: 404 });
+        res.json().status(404);
     };
 };
 
 const deletePlaylist = async (req, res) => {
     if (req.query && req.query.id) {
-        await Playlist.findByIdAndDelete({ _id: req.query.id })
+        await Playlist.findByIdAndDelete(req.query.id)
             .then(answer => {
-                res.json(answer);
+                res.json(answer).status(204);
             })
             .catch(err => {
                 console.log('Error on delete the playlist', err);
-                res.json({ result: 422 }).status(422);
+                res.json().status(422);
             });
     } else {
-        res.status(422);
         console.log('No data to delete the playlist', err);
-        res.json({ error: 422 });
+        res.json().status(422);
     };
 };
 

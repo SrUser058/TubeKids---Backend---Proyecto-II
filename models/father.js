@@ -9,7 +9,7 @@ const father = new mongoose.Schema({
     password : {type : String},
     pin : {type : Number},
     country : {type : String},
-    birthdate : {type : String},
+    birthdate : {type : Date},
     status : {type : String},
     avatar : {type : Number}
 });
