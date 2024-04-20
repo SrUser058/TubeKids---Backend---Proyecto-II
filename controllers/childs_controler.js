@@ -33,8 +33,8 @@ const postChilds = async (req, res) => {
     if (childs.name && childs.age && childs.pin && childs.pin.toString().length == 6 && childs.father) {
         await childs.save()
             .then(data => {
-                //res.header({ 'location': `/api/kids/?id=${data.id}` });
-                res.json({ 'location': `/api/kids/?id=${data.id}` }).status(201);
+                res.header({ 'location': `/api/kids/?id=${data.id}` });
+                res.json(data).status(201);
             })
             .catch(error => {
                 console.log('Server error while saving the kids account', error);
@@ -81,4 +81,4 @@ const deleteChilds = async (req, res) => {
     };
 };
 
-module.exports = {postChilds, patchChilds, deleteChilds, getChilds};
+module.exports = { postChilds, patchChilds, deleteChilds, getChilds };

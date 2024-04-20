@@ -20,7 +20,7 @@ const {getChilds, postChilds, patchChilds, deleteChilds} = require('./controller
 
 const {getPlaylist, postPlaylist, patchPlaylist, deletePlaylist} = require('./controllers/playlists_controler');
 
-a/*pp.get("/api/login/", getAllFather);
+/*app.get("/api/login/", getAllFather);
 app.get("/api/register/", getEmail);
 app.get("/api/childs/father/", getChildsByFather);
 app.get("/api/playlist/father/", getPlaylistByFather);*/
@@ -28,7 +28,7 @@ app.get("/api/playlist/father/", getPlaylistByFather);*/
 
 // Escuchando los puertos
 app.get("/api/father/", getFather);
-app.post("/api/father/", postFather);
+app.post("/api/father", postFather);
 app.patch("/api/father/", patchFather);
 app.delete("/api/father/", deleteFather);
 

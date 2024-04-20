@@ -4,10 +4,12 @@ const Father = require('../models/father');
 
 // Insertar un nuevo usuario principal en la BD
 const postFather = async (req, res) => {
-    let father = new Father();
-
+    
     //Pasar los datos del request al modelo
-    father.name = req.body.name;
+    let father = new Father(req.body);
+
+    
+    /*father.name = req.body.name;
     father.lastname = req.body.lastname;
     father.email = req.body.email;
     father.age = req.body.age;
@@ -15,11 +17,11 @@ const postFather = async (req, res) => {
     father.pin = req.body.pin;
     father.country = req.body.country;
     father.birthdate = req.body.birthdate;
-    father.avatar = req.body.avatar;
+    father.avatar = req.body.avatar;*/
 
     console.log(req.body);
     // Validar que los datos no sean null
-    if (father.name && father.lastname && father.email && father.password && father.age <= 18 && father.pin && father.pin.toString().length == 6 && father.country && father.birthdate && father.avatar && father.phone && father.status == 'Pendient') {
+    if (father.name && father.lastname && father.email && father.password && father.age && father.pin && father.pin.toString().length == 6 && father.country && father.birthdate && father.avatar && father.phone && father.status == false) {
         await father.save()
             .then(data => {
                 //res.status(201);
