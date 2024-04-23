@@ -6,15 +6,18 @@ const getChilds = (req, res) => {
     if (req.query && req.query.id) {
         Childs.findById(req.query.id)
             .then((childs) => {
-                res.json(childs).status(200);
+                res.status(200);
+                res.json(childs);
             })
             .catch(err => {
                 console.log('Server error obtain the user', err);
-                res.json().status(422);
+                res.status(422)
+                res.json();
             });
     } else {
         console.log('Internal error with the user data');
-        res.json().status(422);
+        res.status(422);
+        res.json();
     };
 };
 
@@ -34,15 +37,18 @@ const postChilds = async (req, res) => {
         await childs.save()
             .then(data => {
                 res.header({ 'location': `/api/kids/?id=${data.id}` });
-                res.json(data).status(201);
+                res.status(201);
+                res.json(data);
             })
             .catch(error => {
                 console.log('Server error while saving the kids account', error);
-                res.json().status(422);
+                res.status(422);
+                res.json();
             });
     } else {
         console.log('Data error while saving the kids account');
-        res.json().status(422);
+        res.status(422);
+        res.json();
     }
 };
 
@@ -52,15 +58,18 @@ const patchChilds = async (req, res) => {
     if (req.query && req.query.id) {
         await Childs.findByIdAndUpdate(req.query.id, req.body)
             .then(answer => {
-                res.json(answer).status(200);
+                res.status(200);
+                res.json(answer);
             })
             .catch(err => {
                 console.log('Error update the user', err);
-                res.json(undefined).status(422);
+                res.status(422);
+                res.json(undefined);
             });
     } else {
         console.log('Internal error with the data');
-        res.json().status(404);
+        res.status(404);
+        res.json();
     };
 };
 
@@ -69,15 +78,18 @@ const deleteChilds = async (req, res) => {
     if (req.query && req.query.id) {
         await Childs.findByIdAndDelete(req.query.id)
             .then(answer => {
-                res.json(answer).status(204);
+                res.status(204);
+                res.json(answer);
             })
             .catch(err => {
                 console.log('Error on delete the user', err);
-                res.json().status(422);
+                res.status(422);
+                res.json();
             });
     } else {
         console.log('No data to delete the user', err);
-        res.json().status(422);
+        res.status(422);
+        res.json();
     };
 };
 
