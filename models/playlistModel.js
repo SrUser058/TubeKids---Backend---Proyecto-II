@@ -7,7 +7,7 @@ const Playlist = new mongoose.Schema({
     videos : [{
         name : {type : String},
         URL : {type : String},
-        descripcion: {type : String}
+        description: {type : String}
     }],
     linked: [{
         child: {type: mongoose.ObjectId,ref:'Childs'}
