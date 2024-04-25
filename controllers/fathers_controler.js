@@ -1,7 +1,7 @@
 
 
 const Father = require('../models/father');
-
+const {sendEmail} = require('../emails')
 // Insertar un nuevo usuario principal en la BD
 const postFather = async (req, res) => {
     
@@ -24,6 +24,7 @@ const postFather = async (req, res) => {
     if (father.name && father.lastname && father.email && father.password && father.age && father.pin && father.pin.toString().length == 6 && father.country && father.birthdate && father.avatar && father.phone && father.status == false) {
         await father.save()
             .then(data => {
+                sendEmail(father);
                 res.status(201);
                 res.header({ 'location': `/api/father/?id=${data.id}`});
                 res.json(father);

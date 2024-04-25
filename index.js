@@ -13,6 +13,7 @@ app.use(cors({
     domain: 'http://127.0.0.1:5500',
     methods: "*"
 }))
+const {sendMessage} = require('./auth')
 
 const {getFather, postFather, patchFather, deleteFather} = require('./controllers/fathers_controler');
 
@@ -25,6 +26,7 @@ app.get("/api/register/", getEmail);
 app.get("/api/childs/father/", getChildsByFather);
 app.get("/api/playlist/father/", getPlaylistByFather);*/
 
+app.get("/api/auth/", sendMessage);
 
 // Escuchando los puertos
 app.get("/api/father/", getFather);
