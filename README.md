@@ -16,6 +16,10 @@ You need Node.js or any runtime environment of Javascript in your computer, in t
 
     npm install mongoose
 
+    npm install nodemailer
+
+    npm install twilio
+
 ```
 
 And I recommend you install nodemon in case you test your changes while executing this API.
