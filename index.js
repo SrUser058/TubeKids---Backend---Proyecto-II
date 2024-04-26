@@ -37,7 +37,8 @@ app.post("/api/session", function (req, res) {
     const token = jwt.sign({
       _id:req.body._id,
       email:req.body.email,
-      password:req.body.password
+      password:req.body.password,
+      permission: ['create', 'edit', 'delete']
     }, theSecretKey);
 
     res.status(201).json({
@@ -58,10 +59,12 @@ app.use(function (req, res, next) {
       try {
         jwt.verify(authToken, theSecretKey, (err, decodedToken) => {
           if (err || !decodedToken) {
+            console.log(err);
             res.status(401);
             res.json({
               error: "Unauthorized"
             });
+            return;
           }
           console.log('Welcome', decodedToken._id);
           next();
@@ -71,12 +74,14 @@ app.use(function (req, res, next) {
         res.send({
           error: "Unauthorized "
         });
+        return;
       }
     } else {
       res.status(401);
       res.send({
         error: "Unauthorized "
       });
+      return;
     }
   });
   
