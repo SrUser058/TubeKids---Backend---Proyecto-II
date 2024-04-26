@@ -16,7 +16,7 @@ function sendEmail(fatherData) {
         to: fatherData.email,
         subject: 'Verify your Account Now!',
         text: `Now you can verify your account clicking in the next link!
-        http://localhost:5500/redirec.html/?id=${fatherData.email}
+        http://localhost:5500/redirec.html?id=${fatherData.email}
         Please dont share click the link if you arent login in TubeKids!`
     };
 
